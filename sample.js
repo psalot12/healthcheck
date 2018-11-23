@@ -16,8 +16,11 @@ try {
 
 	// init_mongoose().then(data => {
 	let handlers = {
+		//Pass only if you want to check mongo
 		mongo: { db_options: db_options, host: "mongodb://localhost:27017" },
+		//Pass only if you want to check redis
 		redis_conf: { port: 6379, host: "localhost", password: "abc@123" },
+		//Pass only if you want to check api
 		api: {
 			url: "https://api.com/api",
 			method: "get",

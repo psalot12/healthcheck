@@ -33,10 +33,10 @@ class HealthChecker {
 							.on("error", function(err) {
 								let errorObj = {
 									error: true,
-									message: "Instance is not responsive",
+									message: "Redis instance is not responsive",
 									errorObj: err
 								};
-								reject(err);
+								reject(errorObj);
 							});
 						redisClient.ping(function(err, pong) {
 							if (err || pong !== "PONG") {
@@ -59,25 +59,30 @@ class HealthChecker {
 			if (mongo) {
 				const mongofunction = () => {
 					return new Promise((resolve, reject) => {
-						mongoose.connect(
-							mongo.host,
-							mongo.db_options,
-							(err, data) => {
-								let errorObj = {
-									error: true,
-									message: "Mongodb connection error"
-								};
-								if (err) {
-									reject(err);
+						try {
+							mongoose.connect(
+								mongo.host,
+								mongo.db_options,
+								(err, data) => {
+									let errorObj = {
+										error: true,
+										message: "Mongodb connection error"
+									};
+									if (err) {
+										errorObj["message"] = err.message;
+										reject(errorObj);
+									}
+									if (data && data.readyState === 1) {
+										resolve({ mongo: "Mongo Connected Successfully" });
+									} else {
+										reject(errorObj);
+									}
+									mongoose.connection.close();
 								}
-								if (data.readyState === 1) {
-									resolve({ mongo: "Mongo Connected Successfully" });
-								} else {
-									reject(errorObj);
-								}
-								mongoose.connection.close();
-							}
-						);
+							);
+						} catch (e) {
+							reject(e);
+						}
 					});
 				};
 
