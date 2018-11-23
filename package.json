@@ -1,0 +1,25 @@
+{
+	"name": "healthcheck",
+	"version": "1.0.0",
+	"description": "Healthcheck for API,Redis and MongoDB",
+	"main": "healthcheck.js",
+	"scripts": {
+		"start": "node healthcheck.js"
+	},
+	"author": {
+		"name": "Pooja Salot",
+		"email": "pooja.salot@accionlabs.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/psalot12/healthcheck.git"
+	},
+	"dependencies": {
+		"bluebird": "^3.5.3",
+		"express": "^4.16.4",
+		"mongoose": "^5.3.13",
+		"redis": "^2.8.0",
+		"request": "^2.88.0",
+		"request-promise": "^4.2.2"
+	}
+}
